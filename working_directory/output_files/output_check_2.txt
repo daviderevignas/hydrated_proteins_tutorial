@@ -1,0 +1,11 @@
+                jj_bulk:         0.3000000000
+                jj_phob:         1.2000000000
+                jj_phil:         0.3000000000
+                 jsigma:         0.0500000000
+            jsigma_phob:         0.2000000000
+               vHB_bulk:         0.5000000000
+               vHB_phob:         2.0000000000
+               vHB_phil:         0.5000000000
+          compress_bulk:         0.0000000000
+          compress_phob:         4.0000000000
+          compress_phil:         0.0000000000
