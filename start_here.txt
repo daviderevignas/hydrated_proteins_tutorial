@@ -4,7 +4,7 @@ This folder contains:
 - fortran_source_code: source code for the executable that performs Monte Carlo simulations of 2D proteins and water
 - example_input_files: files with input data necessary to perform simulations
 - python_utils: python scripts and jupiter notebooks useful to prepare input files and analyze output files
-- working_directory; a minimal working example of a simulation
+- working_directory: a minimal working example of a simulation
 
 
 

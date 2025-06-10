@@ -12,6 +12,7 @@
 ! 4) added saving of "Bonds_DR" auxiliary variables to be able to distinguish different types of intra-cell 
 !     cooperative bonds
 ! 5) correction of LJ neighbors counting
+! 6) sigmoid function to control the liquid-gas transition of water
 
 
 ! Water neighbors: "0" down, "1" right, "2" up, "3" left
