@@ -5,6 +5,6 @@
               init_time:                    0
                run_time:                10000
                  sample:                  100
-    (random seed) iseed:            407007362
+    (random seed) iseed:            601257117
          number_species:                    1
                    flux:                    0
