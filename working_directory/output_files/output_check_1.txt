@@ -1,10 +1,10 @@
                       L:                   50
-                   Temp:         0.2000000000
+                   Temp:         0.3000000000
                   Press:         0.0007000000
         number_proteins:                    1
               init_time:                    0
                run_time:                10000
                  sample:                  100
-    (random seed) iseed:            601257117
+    (random seed) iseed:            968458324
          number_species:                    1
                    flux:                    0
