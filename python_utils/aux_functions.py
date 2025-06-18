@@ -7,7 +7,7 @@ from numba import njit
 def load_dictionary_loc_density(npz_loaded_file):
     
     box_size=int(npz_loaded_file['box_size'])
-    nativ_neigh_list=npz_loaded_file['nativ_neigh_list']
+    native_neigh_list=npz_loaded_file['native_neigh_list']
     all_x_pos=npz_loaded_file['all_x_pos']
     all_y_pos=npz_loaded_file['all_y_pos']
     Rg_to_use=npz_loaded_file['Rg_to_use']
@@ -60,7 +60,7 @@ def load_dictionary_loc_density(npz_loaded_file):
     sol_cluster_ver_max_size=npz_loaded_file['sol_cluster_ver_max_size']
     
         
-    return box_size,nativ_neigh_list,\
+    return box_size,native_neigh_list,\
         all_x_pos,all_y_pos,Rg_to_use,aa_present,\
         Nc_present,Ic_present,hw_present,bw_present,\
         bulk_HB_present,pho_HB_present,phi_HB_present,\
@@ -106,7 +106,7 @@ def build_result_dict_loc_density(folder_with_dicts,selected_Np,selected_T,selec
                 now_bs in selected_bs and\
                 now_st in selected_st:
                     
-                box_size,nativ_neigh_list,\
+                box_size,native_neigh_list,\
                     all_x_pos,all_y_pos,Rg_to_use,aa_present,\
                     Nc_present,Ic_present,hw_present,bw_present,\
                     bulk_HB_present,pho_HB_present,phi_HB_present,\
@@ -143,7 +143,7 @@ def build_result_dict_loc_density(folder_with_dicts,selected_Np,selected_T,selec
                 all_res_dict[(
                         now_Np,now_T,now_bs,now_st
                         )]= \
-                    box_size,nativ_neigh_list,\
+                    box_size,native_neigh_list,\
                     all_x_pos,all_y_pos,Rg_to_use,aa_present,\
                     Nc_present,Ic_present,hw_present,bw_present,\
                     bulk_HB_present,pho_HB_present,phi_HB_present,\
@@ -195,7 +195,7 @@ def build_result_dict(folder_with_dicts,selected_Np,selected_T,selected_bs,selec
                 now_bs in selected_bs and\
                 now_st in selected_st:
                     
-                box_size,nativ_neigh_list,path_to_array_replica_folder,\
+                box_size,native_neigh_list,path_to_array_replica_folder,\
                     all_Nc,all_Ic,list_of_times,\
                     raw_data_folding,\
                     n_monomers,n_proteins,n_snapshots,n_replicas,n_native_bonds_per_protein,\
@@ -221,7 +221,7 @@ def build_result_dict(folder_with_dicts,selected_Np,selected_T,selected_bs,selec
                 all_res_dict[(
                         now_Np,now_T,now_bs,now_st
                         )]= \
-                        box_size,nativ_neigh_list,path_to_array_replica_folder,\
+                        box_size,native_neigh_list,path_to_array_replica_folder,\
                         all_Nc,all_Ic,list_of_times,\
                         raw_data_folding,\
                         n_monomers,n_proteins,n_snapshots,n_replicas,n_native_bonds_per_protein,\
@@ -253,7 +253,7 @@ def build_result_dict(folder_with_dicts,selected_Np,selected_T,selected_bs,selec
 def load_dictionary_all_simple(npz_loaded_file):
         
     box_size=npz_loaded_file['box_size']
-    nativ_neigh_list=npz_loaded_file['nativ_neigh_list']
+    native_neigh_list=npz_loaded_file['native_neigh_list']
     path_to_array_replica_folder=npz_loaded_file['path_to_array_replica_folder']
     all_Nc=npz_loaded_file['all_Nc']
     all_Ic=npz_loaded_file['all_Ic']
@@ -323,7 +323,7 @@ def load_dictionary_all_simple(npz_loaded_file):
     MC_N_hb_b_max_possible=npz_loaded_file['MC_N_hb_b_max_possible']
     MC_N_hb_h_max_possible=npz_loaded_file['MC_N_hb_h_max_possible']
     
-    return box_size,nativ_neigh_list,path_to_array_replica_folder,\
+    return box_size,native_neigh_list,path_to_array_replica_folder,\
         all_Nc,all_Ic,list_of_times,\
         raw_data_folding,\
         n_monomers,n_proteins,n_snapshots,n_replicas,n_native_bonds_per_protein,\
@@ -457,8 +457,8 @@ def unwrap_MC_results(npz_loaded_file_list):
 def save_analysis_at_folder(path_to_array_replica_folder,n_proteins,n_monomers,box_size):
     
     # ATTENTION, this is declined for A0 protein:
-    # nativ_neigh_list=read_target_structures('target_structures.dat',n_monomers)
-    nativ_neigh_list=np.array([11, 10,  9,  8,  7, -1, 17, 16, 15, 14, 13, -1, 23, 22, 21, 20, 19,
+    # native_neigh_list=read_target_structures('target_structures.dat',n_monomers)
+    native_neigh_list=np.array([11, 10,  9,  8,  7, -1, 17, 16, 15, 14, 13, -1, 23, 22, 21, 20, 19,
        -1, 29, 28, 27, 26, 25, -1, 35, 34, 33, 32, 31, -1, -1, -1, -1, -1,
        -1, -1], dtype=np.int32)
     
@@ -595,9 +595,9 @@ def save_analysis_at_folder(path_to_array_replica_folder,n_proteins,n_monomers,b
     all_Nc=np.zeros((n_replicas,n_snapshots),dtype=np.int32)
     all_Ic=np.zeros((n_replicas,n_snapshots),dtype=np.int32)
     for i_replica in range(n_replicas):
-        all_Nc[i_replica,:]=count_all_native_neigh(all_x_pos[:,:,:,i_replica],all_y_pos[:,:,:,i_replica],nativ_neigh_list,box_size)
+        all_Nc[i_replica,:]=count_all_native_neigh(all_x_pos[:,:,:,i_replica],all_y_pos[:,:,:,i_replica],native_neigh_list,box_size)
         all_Ic[i_replica,:]=count_all_inter_contacts(all_x_pos[:,:,:,i_replica],all_y_pos[:,:,:,i_replica],box_size)
-    all_Nc_per_prot=count_fold_unfold_prot(all_x_pos,all_y_pos,box_size,nativ_neigh_list)
+    all_Nc_per_prot=count_fold_unfold_prot(all_x_pos,all_y_pos,box_size,native_neigh_list)
     
     # analyze all_x_pos and all_y_pos variables to extract    
     aa_present,Nc_present,Ic_present,hw_present,bw_present,\
@@ -605,7 +605,7 @@ def save_analysis_at_folder(path_to_array_replica_folder,n_proteins,n_monomers,b
     hb_b_counts,hb_pho_counts,hb_phi_counts,hb_mix_counts,coop_b_counts,coop_pho_counts,\
     bulk_HB_present,pho_HB_present,phi_HB_present,mix_HB_present,coop_bonds_present,coop_bonds_PHO_present,\
     prot_counts,\
-    n_cells_tested=calculate_all_local(all_x_pos,all_y_pos,box_size,10,nativ_neigh_list,\
+    n_cells_tested=calculate_all_local(all_x_pos,all_y_pos,box_size,10,native_neigh_list,\
     bulk_HB_present,pho_HB_present,phi_HB_present,mix_HB_present,coop_bonds_present,coop_bonds_PHO_present)
     
     
@@ -672,7 +672,7 @@ def save_analysis_at_folder(path_to_array_replica_folder,n_proteins,n_monomers,b
     
     np.savez_compressed(path_to_array_replica_folder + 'analyzed_traj_loc',
         box_size=box_size,
-        nativ_neigh_list=nativ_neigh_list,
+        native_neigh_list=native_neigh_list,
         path_to_array_replica_folder=path_to_array_replica_folder,
         all_x_pos=all_x_pos,all_y_pos=all_y_pos,
         all_Nc=all_Nc,all_Ic=all_Ic,
@@ -882,7 +882,7 @@ def catenate_files_cluster(npz_loaded_file_list):
 def catenate_files_local_all_savings(npz_loaded_file_list):
     if type(npz_loaded_file_list) == list:
         box_size=int(npz_loaded_file_list[0]['box_size'])
-        nativ_neigh_list=npz_loaded_file_list[0]['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list[0]['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list[0]['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list[0]['all_x_pos']
         all_y_pos=npz_loaded_file_list[0]['all_y_pos']
@@ -967,7 +967,7 @@ def catenate_files_local_all_savings(npz_loaded_file_list):
             st3=np.append(st3,npz_loaded_file_list[i_file]['st3'],axis=0)
     else:
         box_size=int(npz_loaded_file_list['box_size'])
-        nativ_neigh_list=npz_loaded_file_list['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list['all_x_pos']
         all_y_pos=npz_loaded_file_list['all_y_pos']
@@ -1009,7 +1009,7 @@ def catenate_files_local_all_savings(npz_loaded_file_list):
         st2=npz_loaded_file_list['st2']
         st3=npz_loaded_file_list['st3']
         
-    return box_size,nativ_neigh_list,path_to_array_replica_folder,\
+    return box_size,native_neigh_list,path_to_array_replica_folder,\
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times,all_Nc_per_prot,\
     aa_present,Nc_present,Ic_present,hw_present,bw_present,\
     bulk_HB_present,pho_HB_present,phi_HB_present,mix_HB_present,coop_bonds_present,coop_bonds_PHO_present,\
@@ -1025,7 +1025,7 @@ def catenate_files_local_all_savings(npz_loaded_file_list):
 def catenate_files_local_simple(npz_loaded_file_list):
     if type(npz_loaded_file_list) == list:
         box_size=int(npz_loaded_file_list[0]['box_size'])
-        nativ_neigh_list=npz_loaded_file_list[0]['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list[0]['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list[0]['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list[0]['all_x_pos']
         all_y_pos=npz_loaded_file_list[0]['all_y_pos']
@@ -1055,7 +1055,7 @@ def catenate_files_local_simple(npz_loaded_file_list):
             # st3=np.append(st3,npz_loaded_file_list[i_file]['st3'],axis=0)
     else:
         box_size=int(npz_loaded_file_list['box_size'])
-        nativ_neigh_list=npz_loaded_file_list['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list['all_x_pos']
         all_y_pos=npz_loaded_file_list['all_y_pos']
@@ -1071,7 +1071,7 @@ def catenate_files_local_simple(npz_loaded_file_list):
         # st2=npz_loaded_file_list['st2']
         # st3=npz_loaded_file_list['st3']
         
-    return box_size,nativ_neigh_list,path_to_array_replica_folder,\
+    return box_size,native_neigh_list,path_to_array_replica_folder,\
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times,\
     raw_data_folding#,\
     # st0,st1,st2,st3
@@ -1266,7 +1266,7 @@ def convert_HB_to_mol_states(all_hor_HB,all_ver_HB,all_coop_bonds,all_coop_bonds
 
 
 @njit
-def calculate_all_local(all_x_pos,all_y_pos,box_size,test_radius,nativ_neigh_list, \
+def calculate_all_local(all_x_pos,all_y_pos,box_size,test_radius,native_neigh_list, \
     bulk_HB_present,pho_HB_present,phi_HB_present,mix_HB_present,coop_bonds_present,coop_bonds_PHO_present):
     n_monomers=all_x_pos.shape[0]
     n_proteins=all_x_pos.shape[1]
@@ -1343,8 +1343,8 @@ def calculate_all_local(all_x_pos,all_y_pos,box_size,test_radius,nativ_neigh_lis
             # build auxiliary boolean variable aa_present for given snapshot
             for i_prot in range(n_proteins):
                 for i_mon_A in range(n_monomers):
-                    if nativ_neigh_list[i_mon_A]>=0:
-                        i_mon_B=nativ_neigh_list[i_mon_A]
+                    if native_neigh_list[i_mon_A]>=0:
+                        i_mon_B=native_neigh_list[i_mon_A]
                         dx = box_size//2 - abs(abs(all_x_pos[i_mon_A,i_prot,i_t,i_replica]-all_x_pos[i_mon_B,i_prot,i_t,i_replica]) - box_size//2)
                         dy = box_size//2 - abs(abs(all_y_pos[i_mon_A,i_prot,i_t,i_replica]-all_y_pos[i_mon_B,i_prot,i_t,i_replica]) - box_size//2)
                         if ((dx == 1) and (dy == 0)) or ((dx == 0) and (dy == 1)):
@@ -1452,12 +1452,12 @@ def build_aux_vars_hist_2d(local_counts_Nc,n_proteins,n_native_bonds_per_protein
     return aux_var_1,aux_var_2
 
 
-def retrieve_simul_variables(all_x_pos,nativ_neigh_list):
+def retrieve_simul_variables(all_x_pos,native_neigh_list):
     n_monomers=all_x_pos.shape[0]
     n_proteins=all_x_pos.shape[1]
     n_snapshots=all_x_pos.shape[2]
     n_replicas=all_x_pos.shape[3]
-    n_native_bonds_per_protein=np.sum(nativ_neigh_list>0)
+    n_native_bonds_per_protein=np.sum(native_neigh_list>0)
     return n_monomers,n_proteins,n_snapshots,n_replicas,n_native_bonds_per_protein
 
 
@@ -1466,7 +1466,7 @@ def retrieve_simul_variables(all_x_pos,nativ_neigh_list):
 def catenate_files_local(npz_loaded_file_list):
     if type(npz_loaded_file_list) == list:
         box_size=int(npz_loaded_file_list[0]['box_size'])
-        nativ_neigh_list=npz_loaded_file_list[0]['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list[0]['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list[0]['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list[0]['all_x_pos']
         all_y_pos=npz_loaded_file_list[0]['all_y_pos']
@@ -1497,7 +1497,7 @@ def catenate_files_local(npz_loaded_file_list):
             raw_data_folding=np.append(raw_data_folding,npz_loaded_file_list[i_file]['raw_data_folding'],axis=0)
     else:
         box_size=int(npz_loaded_file_list['box_size'])
-        nativ_neigh_list=npz_loaded_file_list['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list['all_x_pos']
         all_y_pos=npz_loaded_file_list['all_y_pos']
@@ -1513,7 +1513,7 @@ def catenate_files_local(npz_loaded_file_list):
         n_cells_tested=npz_loaded_file_list['n_cells_tested']
         raw_data_folding=npz_loaded_file_list['raw_data_folding']
         
-    return box_size,nativ_neigh_list,path_to_array_replica_folder,\
+    return box_size,native_neigh_list,path_to_array_replica_folder,\
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times,all_Nc_per_prot,\
     aa_counts,Nc_counts,Ic_counts,hw_counts,bw_counts,n_cells_tested,\
     raw_data_folding
@@ -1524,7 +1524,7 @@ def catenate_files_local(npz_loaded_file_list):
 def catenate_files_all_thermo(npz_loaded_file_list):
     if type(npz_loaded_file_list) == list:
         box_size=int(npz_loaded_file_list[0]['box_size'])
-        nativ_neigh_list=npz_loaded_file_list[0]['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list[0]['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list[0]['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list[0]['all_x_pos']
         all_y_pos=npz_loaded_file_list[0]['all_y_pos']
@@ -1563,7 +1563,7 @@ def catenate_files_all_thermo(npz_loaded_file_list):
             raw_data_folding=np.append(raw_data_folding,npz_loaded_file_list[i_file]['raw_data_folding'],axis=0)
     else:
         box_size=int(npz_loaded_file_list['box_size'])
-        nativ_neigh_list=npz_loaded_file_list['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list['all_x_pos']
         all_y_pos=npz_loaded_file_list['all_y_pos']
@@ -1585,7 +1585,7 @@ def catenate_files_all_thermo(npz_loaded_file_list):
         n_cells_tested_10=npz_loaded_file_list['n_cells_tested_10']
         raw_data_folding=npz_loaded_file_list['raw_data_folding']
         
-    return box_size,nativ_neigh_list,path_to_array_replica_folder,\
+    return box_size,native_neigh_list,path_to_array_replica_folder,\
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times,\
     all_Nc_per_prot,\
     bulk_molecules_rad_10,water_molecules_10,bulk_molecules_rad_5,water_molecules_5,\
@@ -1597,7 +1597,7 @@ def catenate_files_all_thermo(npz_loaded_file_list):
 def catenate_files_all(npz_loaded_file_list):
     if type(npz_loaded_file_list) == list:
         box_size=int(npz_loaded_file_list[0]['box_size'])
-        nativ_neigh_list=npz_loaded_file_list[0]['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list[0]['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list[0]['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list[0]['all_x_pos']
         all_y_pos=npz_loaded_file_list[0]['all_y_pos']
@@ -1634,7 +1634,7 @@ def catenate_files_all(npz_loaded_file_list):
             local_counts_Ic_10=local_counts_Ic_10+npz_loaded_file_list[i_file]['local_counts_Ic_10']
     else:
         box_size=int(npz_loaded_file_list['box_size'])
-        nativ_neigh_list=npz_loaded_file_list['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list['native_neigh_list']
         path_to_array_replica_folder=npz_loaded_file_list['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list['all_x_pos']
         all_y_pos=npz_loaded_file_list['all_y_pos']
@@ -1655,7 +1655,7 @@ def catenate_files_all(npz_loaded_file_list):
         local_counts_Ic_10=npz_loaded_file_list['local_counts_Ic_10']
         n_cells_tested_10=npz_loaded_file_list['n_cells_tested_10']
         
-    return box_size,nativ_neigh_list,path_to_array_replica_folder,\
+    return box_size,native_neigh_list,path_to_array_replica_folder,\
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times,\
     all_Nc_per_prot,\
     bulk_molecules_rad_10,water_molecules_10,bulk_molecules_rad_5,water_molecules_5,\
@@ -1722,7 +1722,7 @@ def calculate_all_local_concentration_systematic(all_x_pos,all_y_pos,box_size,te
 
 
 @njit
-def count_fold_unfold_prot(all_x_pos,all_y_pos,box_size,nativ_neigh_list):
+def count_fold_unfold_prot(all_x_pos,all_y_pos,box_size,native_neigh_list):
     n_monomers=all_x_pos.shape[0]
     n_proteins=all_x_pos.shape[1]
     n_snapshots=all_x_pos.shape[2]
@@ -1733,8 +1733,8 @@ def count_fold_unfold_prot(all_x_pos,all_y_pos,box_size,nativ_neigh_list):
         for i_t in range(n_snapshots):
             for i_prot in range(n_proteins):
                 for i_mon_A in range(n_monomers):
-                    if nativ_neigh_list[i_mon_A]>=0:
-                        i_mon_B=nativ_neigh_list[i_mon_A]
+                    if native_neigh_list[i_mon_A]>=0:
+                        i_mon_B=native_neigh_list[i_mon_A]
                         dx = box_size//2 - abs(abs(all_x_pos[i_mon_A,i_prot,i_t,i_replica]-all_x_pos[i_mon_B,i_prot,i_t,i_replica]) - box_size//2)
                         dy = box_size//2 - abs(abs(all_y_pos[i_mon_A,i_prot,i_t,i_replica]-all_y_pos[i_mon_B,i_prot,i_t,i_replica]) - box_size//2)
                         if ((dx == 1) and (dy == 0)) or ((dx == 0) and (dy == 1)):
@@ -1872,7 +1872,7 @@ def reconstruct_variables(npz_loaded_file):
     box_size=int(npz_loaded_file['L'])
     n_proteins=npz_loaded_file['n_proteins']
     n_replicas=npz_loaded_file['n_replicas']
-    nativ_neigh_list=npz_loaded_file['nativ_neigh_list']
+    native_neigh_list=npz_loaded_file['native_neigh_list']
     n_native_bonds_per_protein=npz_loaded_file['n_native_bonds_per_protein']
     path_to_array_replica_folder=npz_loaded_file['path_to_array_replica_folder']
     all_x_pos=npz_loaded_file['all_x_pos']
@@ -1880,7 +1880,7 @@ def reconstruct_variables(npz_loaded_file):
     all_Nc=npz_loaded_file['all_Nc']
     all_Ic=npz_loaded_file['all_Ic']
     list_of_times=npz_loaded_file['list_of_times']
-    return box_size,n_proteins,n_replicas,nativ_neigh_list,n_native_bonds_per_protein,path_to_array_replica_folder, \
+    return box_size,n_proteins,n_replicas,native_neigh_list,n_native_bonds_per_protein,path_to_array_replica_folder, \
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times
     
 def catenate_files(npz_loaded_file_list):
@@ -1888,7 +1888,7 @@ def catenate_files(npz_loaded_file_list):
         box_size=int(npz_loaded_file_list[0]['L'])
         n_proteins=npz_loaded_file_list[0]['n_proteins']
         n_replicas=npz_loaded_file_list[0]['n_replicas']
-        nativ_neigh_list=npz_loaded_file_list[0]['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list[0]['native_neigh_list']
         n_native_bonds_per_protein=npz_loaded_file_list[0]['n_native_bonds_per_protein']
         path_to_array_replica_folder=npz_loaded_file_list[0]['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list[0]['all_x_pos']
@@ -1906,7 +1906,7 @@ def catenate_files(npz_loaded_file_list):
         box_size=int(npz_loaded_file_list['L'])
         n_proteins=npz_loaded_file_list['n_proteins']
         n_replicas=npz_loaded_file_list['n_replicas']
-        nativ_neigh_list=npz_loaded_file_list['nativ_neigh_list']
+        native_neigh_list=npz_loaded_file_list['native_neigh_list']
         n_native_bonds_per_protein=npz_loaded_file_list['n_native_bonds_per_protein']
         path_to_array_replica_folder=npz_loaded_file_list['path_to_array_replica_folder']
         all_x_pos=npz_loaded_file_list['all_x_pos']
@@ -1915,7 +1915,7 @@ def catenate_files(npz_loaded_file_list):
         all_Ic=npz_loaded_file_list['all_Ic']
         list_of_times=npz_loaded_file_list['list_of_times']
         
-    return box_size,n_proteins,n_replicas,nativ_neigh_list,n_native_bonds_per_protein,path_to_array_replica_folder, \
+    return box_size,n_proteins,n_replicas,native_neigh_list,n_native_bonds_per_protein,path_to_array_replica_folder, \
     all_x_pos,all_y_pos,all_Nc,all_Ic,list_of_times
 
 def read_conf_file(path,n_proteins,n_monomers,max_n_snapshots):
@@ -1949,17 +1949,17 @@ def convert_raw_conf_data(raw_conf_data,n_proteins,n_monomers):
 
 def read_target_structures(path,n_monomers):
     native_structure=np.loadtxt(path,dtype=np.int32,max_rows=n_monomers)
-    nativ_neigh_list=np.ones(n_monomers,dtype=np.int32)*-1
+    native_neigh_list=np.ones(n_monomers,dtype=np.int32)*-1
     for i_mon_A in range(0,n_monomers):
         for i_mon_B in range(i_mon_A+2,n_monomers):
             dx = abs(native_structure[i_mon_A,0]-native_structure[i_mon_B,0])
             dy = abs(native_structure[i_mon_A,1]-native_structure[i_mon_B,1])
             if ((dx == 1) and (dy == 0)) or ((dx == 0) and (dy == 1)):
-                nativ_neigh_list[i_mon_A]=i_mon_B
-    return nativ_neigh_list
+                native_neigh_list[i_mon_A]=i_mon_B
+    return native_neigh_list
 
 @njit
-def count_all_native_neigh(x_pos,y_pos,nativ_neigh_list,box_size):
+def count_all_native_neigh(x_pos,y_pos,native_neigh_list,box_size):
     n_monomers=x_pos.shape[0]
     n_proteins=x_pos.shape[1]
     n_snapshots=x_pos.shape[2]
@@ -1967,8 +1967,8 @@ def count_all_native_neigh(x_pos,y_pos,nativ_neigh_list,box_size):
     for i_t in range(n_snapshots):
         for i_prot in range(n_proteins):
             for i_mon_A in range(n_monomers):
-                if nativ_neigh_list[i_mon_A]>=0:
-                    i_mon_B=nativ_neigh_list[i_mon_A]
+                if native_neigh_list[i_mon_A]>=0:
+                    i_mon_B=native_neigh_list[i_mon_A]
                     dx = box_size//2 - abs(abs(x_pos[i_mon_A,i_prot,i_t]-x_pos[i_mon_B,i_prot,i_t]) - box_size//2)
                     dy = box_size//2 - abs(abs(y_pos[i_mon_A,i_prot,i_t]-y_pos[i_mon_B,i_prot,i_t]) - box_size//2)
                     if ((dx == 1) and (dy == 0)) or ((dx == 0) and (dy == 1)):

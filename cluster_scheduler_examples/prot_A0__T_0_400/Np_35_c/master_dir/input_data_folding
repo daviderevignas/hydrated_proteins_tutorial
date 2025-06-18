@@ -1,0 +1,11 @@
+Box_Size		60
+Temperature		0.4
+Pressure		0.0007
+Number_Proteins		35
+Equilibration_Steps	0
+Running_Steps		10000000
+Sampling_Data_Time	20000
+Sampling_Conf_Time	20000
+Seed			0
+Number_Species		1
+Flux			0
